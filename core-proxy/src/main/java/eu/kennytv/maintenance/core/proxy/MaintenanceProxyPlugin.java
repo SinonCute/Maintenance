@@ -193,20 +193,8 @@ public abstract class MaintenanceProxyPlugin extends MaintenancePlugin implement
     @Blocking
     @Nullable
     protected ProfileLookup doUUIDLookup(final String name) throws IOException {
-        ProfileLookup profileLookup;
-        try {
-            profileLookup = doUUIDLookupMojangAPI(name);
-        } catch (RateLimitedException e) {
-            // Use fallback API if rate limit is reached
-            profileLookup = doUUIDLookupAshconAPI(name);
-        }
-
-        if (settingsProxy.isFallbackToOfflineUUID() && profileLookup == null) {
-            // Use offline uuid
+            // Use offline uuid, bye bye mojang
             return new ProfileLookup(UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8)), name);
-        }
-
-        return profileLookup;
     }
 
     /**
